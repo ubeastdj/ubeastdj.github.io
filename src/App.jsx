@@ -325,25 +325,95 @@ function NitrogenBudgetChart({ results }) {
     },
   ]
 
-  return (
-    <div style={{ width: '100%', height: 320 }}>
+ return (
+  <div style={{ width: "100%" }}>
+    <div style={{ width: "100%", height: 320 }}>
       <ResponsiveContainer>
-        <BarChart data={data} margin={{ top: 20, right: 20, left: 0, bottom: 10 }}>
+        <BarChart
+          data={data}
+          margin={{ top: 20, right: 20, left: 10, bottom: 10 }}
+          barCategoryGap="55%"
+        >
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="group" />
-          <YAxis label={{ value: 'Nitrogen (lbs per acre)', angle: -90, position: 'insideLeft' }} />
+
+          {/* Hide default X axis labels */}
+          <XAxis dataKey="group" tick={false} axisLine={false} />
+
+          <YAxis
+            label={{
+              value: "Nitrogen lbs/ac",
+              angle: -90,
+              position: "insideLeft",
+              style: { textAnchor: "middle" }
+            }}
+          />
+
           <Tooltip />
           <Legend />
-          <Bar dataKey="synthetic" name="Synthetic Fertilizer" stackId="a" />
-          <Bar dataKey="organic" name="Compost or Manure" stackId="a" />
-          <Bar dataKey="irrigation" name="Irrigation Water" stackId="a" />
-          <Bar dataKey="soil" name="Soil Nitrogen" stackId="a" />
-          <Bar dataKey="livestock" name="Livestock Nitrogen Demand" stackId="b" />
-          <Bar dataKey="hay" name="Hay Exported Nitrogen" stackId="b" />
+
+          {/* Nitrogen inputs */}
+          <Bar
+            dataKey="synthetic"
+            name="Synthetic Fertilizer"
+            stackId="a"
+            fill="#2563eb"
+            radius={[4,4,0,0]}
+          />
+          <Bar
+            dataKey="organic"
+            name="Compost / Manure"
+            stackId="a"
+            fill="#16a34a"
+          />
+          <Bar
+            dataKey="irrigation"
+            name="Irrigation Water N"
+            stackId="a"
+            fill="#0ea5e9"
+          />
+          <Bar
+            dataKey="soil"
+            name="Soil Nitrogen"
+            stackId="a"
+            fill="#a16207"
+          />
+
+          {/* Livestock demand */}
+          <Bar
+            dataKey="livestock"
+            name="Livestock Nitrogen Demand"
+            stackId="b"
+            fill="#dc2626"
+            radius={[4,4,0,0]}
+          />
+          <Bar
+            dataKey="hay"
+            name="Hay Exported Nitrogen"
+            stackId="b"
+            fill="#f59e0b"
+          />
+
         </BarChart>
       </ResponsiveContainer>
     </div>
-  )
+
+    {/* Panel labels under the chart */}
+    <div
+      style={{
+        display: "grid",
+        gridTemplateColumns: "1fr 1fr",
+        textAlign: "center",
+        marginTop: 6,
+        fontSize: 13,
+        fontWeight: 500,
+        color: "#334155"
+      }}
+    >
+      <div>Applied + Available N</div>
+      <div>Livestock & Hay N</div>
+    </div>
+  </div>
+)
 }
 
 export default function App() {
